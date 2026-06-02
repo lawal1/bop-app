@@ -1,0 +1,8 @@
+applications*.csv
+.vercel
+
+.vercel
+.env*.local
+node_modules/
+.DS_Store
+*.log
