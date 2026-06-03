@@ -32,6 +32,11 @@ const BOP_FIELD_IDS = {
   responseSummary: "9hKDP8WOygCrCgw7JW4J",
   gapFeedback: "WJ4blK2rTUp7e9wXhBcm",
   leadSource: "qXlBt96FN2I8l0dgDRu0",
+  ageRange: "CbmmXgdS1Zmh6yQ61Rup",
+  country: "7ncLF1HCdtWyEDTjwk1X",
+  region: "ACNUKc9Y5dpUqSkg7lsa",
+  role: "Di6KyzVuHL286HMBUmgw",
+  niche: "yyVCRzwDgCmlsQZMdNaV",
 };
 
 const scoreMaps = {
@@ -396,6 +401,11 @@ function buildGHLCustomFields(data, review, preserveStatuses = false) {
     { id: BOP_FIELD_IDS.engagementScore, value: String(review.rawScore) },
     { id: BOP_FIELD_IDS.leadTier, value: tierTag(review.rawScore).replace("bop-", "").replace("-lead", "") },
     { id: BOP_FIELD_IDS.applicationStatus, value: review.status },
+    { id: BOP_FIELD_IDS.ageRange, value: data.ageRange || "" },
+    { id: BOP_FIELD_IDS.country, value: data.country || "" },
+    { id: BOP_FIELD_IDS.region, value: data.region || "" },
+    { id: BOP_FIELD_IDS.role, value: data.role || "" },
+    { id: BOP_FIELD_IDS.niche, value: data.niche || "" },
     { id: BOP_FIELD_IDS.leadSource, value: data.source || "" },
     { id: BOP_FIELD_IDS.businessStage, value: data.businessStage || "" },
     { id: BOP_FIELD_IDS.revenue90, value: data.revenue90 || "" },
