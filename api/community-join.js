@@ -1,8 +1,7 @@
-const DEFAULT_COMMUNITY_URL = process.env.KOPPOH_BOP_COMMUNITY_URL;
 const { findContactIdByEmail, trackAction } = require("./ghl-engagement");
 
 function safeRedirectUrl(value) {
-  const url = value || DEFAULT_COMMUNITY_URL;
+  const url = value || process.env.KOPPOH_BOP_COMMUNITY_URL;
   if (!url) return "";
   if (url.startsWith("https://chat.whatsapp.com/") || url.startsWith("https://wa.me/") || url.startsWith("https://api.whatsapp.com/")) {
     return url;
@@ -25,7 +24,7 @@ module.exports = async (req, res) => {
   }
 
   if (redirectUrl) {
-    res.writeHead(302, { Location: redirectUrl });
+    res.writeHead(302, { Location: redirectUrl, "Cache-Control": "no-store, no-cache, must-revalidate" });
     return res.end();
   }
 
