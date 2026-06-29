@@ -122,6 +122,23 @@
   .footer{margin-top:44px;text-align:center;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#333}
   @media(max-width:640px){body{padding:34px 18px}.grid{grid-template-columns:1fr}.consent-line{gap:12px}.consent-line input{width:19px;height:19px;flex-basis:19px;margin-top:2px}}
 </style>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1838273247149649');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1838273247149649&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 </head>
 <body>
 <div class="wrap">
@@ -365,12 +382,12 @@ function buildReview(d){
   let next='Your application may be considered for the next stage of admission. To proceed, you are required to attend the admissions webinar, where the team will explain the programme structure, selection expectations, payment options, and what is required to secure admission.';
   return{total,rawScore,percent,status,lead,headline,intro,gap,next}
 }
-function render(r,ghl){reviewLoading.classList.remove('show');review.classList.add('show');statusBadge.textContent=r.status;reviewHeadline.textContent=r.headline;reviewIntro.textContent=r.intro;scoreValue.textContent=`${r.percent ?? r.total}%`;if(r.gapHtml){reviewGap.innerHTML=r.gapHtml}else{reviewGap.textContent=r.gap;}reviewNext.textContent=r.next;const contactId=ghl&&ghl.contactId;if(contactId){whatsappCta.href=`/api/community-join?contactId=${encodeURIComponent(contactId)}`}else{whatsappCta.href=WHATSAPP_CTA_URL==='WHATSAPP_CTA_URL'?'#':WHATSAPP_CTA_URL}scrollTo(0,0)}
+function render(r,ghl){reviewLoading.classList.remove('show');review.classList.add('show');if(typeof fbq==='function'){fbq('track','Lead')};statusBadge.textContent=r.status;reviewHeadline.textContent=r.headline;reviewIntro.textContent=r.intro;scoreValue.textContent=`${r.percent ?? r.total}%`;if(r.gapHtml){reviewGap.innerHTML=r.gapHtml}else{reviewGap.textContent=r.gap;}reviewNext.textContent=r.next;const contactId=ghl&&ghl.contactId;if(contactId){whatsappCta.href=`/api/community-join?contactId=${encodeURIComponent(contactId)}`}else{whatsappCta.href=WHATSAPP_CTA_URL==='WHATSAPP_CTA_URL'?'#':WHATSAPP_CTA_URL}scrollTo(0,0)}
 function delay(ms){return new Promise(resolve=>setTimeout(resolve,ms))}
 async function showReviewLoading(){form.style.display='none';review.classList.remove('show');reviewLoading.classList.add('show');loadStep1.classList.add('on');loadStep2.classList.remove('on');loadStep3.classList.remove('on');scrollTo(0,0);await delay(4000);loadStep2.classList.add('on');await delay(4000);loadStep3.classList.add('on');await delay(4000)}
 form.onsubmit=async e=>{e.preventDefault();if(!validate())return;const d=formData(),r=buildReview(d);submitBtn.disabled=true;submitBtn.textContent='Submitting Application...';const loading=showReviewLoading();try{const res=await fetch('/api/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...d,review:r})});const json=await res.json().catch(()=>({}));await loading;if(res.ok){render(json.review||r,json.ghl)}else render(r)}catch(_){await loading;render(r)}finally{submitBtn.disabled=false;submitBtn.textContent='Submit My Application'}}
 reviewBack.onclick=()=>{review.classList.remove('show');reviewLoading.classList.remove('show');form.style.display='block';show(current)}
-whatsappCta.onclick=e=>{if(whatsappCta.getAttribute('href')==='#'){e.preventDefault();alert('WhatsApp admissions link will be added before launch.')}}
+whatsappCta.onclick=e=>{if(typeof fbq==='function'){fbq('track','CompleteRegistration')};if(whatsappCta.getAttribute('href')==='#'){e.preventDefault();alert('WhatsApp admissions link will be added before launch.')}}
 </script>
 </body>
 </html>
